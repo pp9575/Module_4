@@ -5,7 +5,7 @@ VALUES ('Бухгалтерия', 'no'), ('Кредитный отдел', 'yes'
 	('Отдел продаж', 'yes'), ('Правление', 'no');
 	
 CREATE TABLE employee (id serial primary key, full_name varchar(50), salary integer,
-					   department_id integer REFERENCES department (id));
+			department_id integer REFERENCES department (id));
 					   
 INSERT INTO employee (full_name, salary, department_id) 
 VALUES ('Петров Иван', '30000', '3'), 'Иванова Наталья', '50000', '1'),
