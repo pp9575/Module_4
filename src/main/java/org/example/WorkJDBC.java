@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 public class WorkJDBC {
 
-
     public WorkJDBC() throws SQLException {
     }
 
@@ -20,31 +19,9 @@ public class WorkJDBC {
         statement.execute(readSQL("dropTables.sql"));
         statement.execute(readSQL("createTables.sql"));
         statement.executeUpdate(readSQL("fillTables.sql"));
-        ResultSet set = statement.executeQuery(readSQL("showStats.sql"));
-        List<String> stats = new ArrayList<>(List.of("0", "0", "0", "0"));
-        int count = 0;
 
-        while (set.next()) {
-            stats.set(count, set.getString(1));
-            count++;
-        }
-
-        StringBuilder builder = new StringBuilder();
-        builder
-                .append("количество пользователей - ")
-                .append(stats.get(0))
-                .append("\n")
-                .append("количество постов - ")
-                .append(stats.get(1))
-                .append("\n")
-                .append("количество комментариев - ")
-                .append(stats.get(2))
-                .append("\n")
-                .append("количество лайков  - ")
-                .append(stats.get(3));
-
-        System.out.println(builder);
-        System.out.println(userInfo(5));
+        System.out.println(getStats());
+        System.out.println(userInfo(3));
     }
 
     public static String readSQL(String file) {
@@ -81,6 +58,9 @@ public class WorkJDBC {
         StringBuilder builder = new StringBuilder();
         return name.equals("") ? "Пользователь не найден" :
                 builder
+                        .append("---ИНФО ПО ПОЛЬЗОВАТЕЛЮ ")
+                        .append(userId)
+                        .append("------\n")
                         .append("Пользователь -  ")
                         .append(name)
                         .append("\n")
@@ -94,11 +74,41 @@ public class WorkJDBC {
                         .append(comments)
                         .toString();
     }
+
     public static Statement openConnection() throws SQLException {
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String user = "postgres";
         String password = "sql@java";
         Connection connection = DriverManager.getConnection(url, user, password);
         return connection.createStatement();
+    }
+
+    public static String getStats() throws SQLException {
+        Statement statement = openConnection();
+        ResultSet set = statement.executeQuery(readSQL("showStats.sql"));
+        List<String> stats = new ArrayList<>(List.of("0", "0", "0", "0"));
+        int count = 0;
+
+        while (set.next()) {
+            stats.set(count, set.getString(1));
+            count++;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        return builder
+                .append("----СТАТИСТИКА----")
+                .append("\n")
+                .append("количество пользователей - ")
+                .append(stats.get(0))
+                .append("\n")
+                .append("количество постов - ")
+                .append(stats.get(1))
+                .append("\n")
+                .append("количество комментариев - ")
+                .append(stats.get(2))
+                .append("\n")
+                .append("количество лайков  - ")
+                .append(stats.get(3))
+                .toString();
     }
 }
