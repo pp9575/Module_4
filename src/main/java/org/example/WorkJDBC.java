@@ -11,9 +11,6 @@ import java.util.stream.Collectors;
 
 public class WorkJDBC {
 
-    public WorkJDBC() throws SQLException {
-    }
-
     public static void main(String[] args) throws SQLException {
         Statement statement = openConnection();
         statement.execute(readSQL("dropTables.sql"));
