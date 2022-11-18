@@ -1,4 +1,4 @@
-package org.example;
+package org.example.DZ2;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -13,9 +13,9 @@ public class WorkJDBC {
 
     public static void main(String[] args) throws SQLException {
         Statement statement = openConnection();
-        statement.execute(readSQL("dropTables.sql"));
-        statement.execute(readSQL("createTables.sql"));
-        statement.executeUpdate(readSQL("fillTables.sql"));
+        statement.execute(readSQL("DZ2/dropTables.sql"));
+        statement.execute(readSQL("DZ2/createTables.sql"));
+        statement.executeUpdate(readSQL("DZ2/fillTables.sql"));
 
         System.out.println(getStats());
         System.out.println(userInfo(3));
@@ -82,7 +82,7 @@ public class WorkJDBC {
 
     public static String getStats() throws SQLException {
         Statement statement = openConnection();
-        ResultSet set = statement.executeQuery(readSQL("showStats.sql"));
+        ResultSet set = statement.executeQuery(readSQL("DZ2/showStats.sql"));
         List<String> stats = new ArrayList<>(List.of("0", "0", "0", "0"));
         int count = 0;
 
